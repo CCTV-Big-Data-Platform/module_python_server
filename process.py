@@ -46,12 +46,16 @@ class Process:
 
     def FaceRecognition(self, decoded_img):
         #encoding frame
-        unknown_face_encoding = face_recognition.face_encodings(decoded_img)[0]
-        # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
-        # 아는 얼굴이면 False, 모르는 얼굴이면 True
-        results = face_recognition.compare_faces(self.known_faces, unknown_face_encoding)
-        print(not True in results)
-        return not True in results
+        try :
+            unknown_face_encoding = face_recognition.face_encodings(decoded_img)[0]
+            # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
+            # 아는 얼굴이면 False, 모르는 얼굴이면 True
+            results = face_recognition.compare_faces(self.known_faces, unknown_face_encoding)
+            print(not True in results)
+            return not True in results
+        except IndexError:
+            print("얼굴없음")
+            return True
 
     def FireDetection(self, decoded_img):
         detections = self.detector.detectObjectsFromImage(input_image=decoded_img, input_type="array",
@@ -66,3 +70,4 @@ class Process:
         for detection in detections:
             print(detection["name"], " : ", detection["percentage_probability"], " : ", detection["box_points"])
         '''
+

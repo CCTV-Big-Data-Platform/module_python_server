@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restplus import Resource, Api, fields
 
 import process
@@ -23,12 +23,17 @@ class test(Resource):
     @ns_spark.expect(spark_request)
     #@ns_spark.marshal_with(spark_response)
     def post(self):
-        #print(api.payload)
-        res = spark.ProcessImage(api.payload)
-        return res
-        #검증용 line
-        #return {'challenge':api.payload['challenge']}
+        print(api)
+        print(api.payload)
+        #res = spark.ProcessImage(api.payload)
+        #return res
+
+@app.route('/process', methods=['POST'])
+def post():
+    print(request.form)
+    res = spark.ProcessImage(request.form)
+    return res
 
 if __name__ == '__main__':
-    spark = process. Process()
+    spark = process.Process()
     app.run(host='0.0.0.0', port=80, threaded=False)
