@@ -39,10 +39,11 @@ class Process:
         decoded_img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
 
         face = self.FaceRecognition(decoded_img) #True면 침입자
-        fire = self.FireDetection(decoded_img) #True면 화재
+        fire = self.FireDetection(decoded_img) #True면 화재발생
 
-        return {"unknown_person" : face, "fire_broken" : fire}
-
+        result= {"unknown_person" : face, "fire_broken" : fire}
+        print(result)
+        return result
 
     def FaceRecognition(self, decoded_img):
         #encoding frame
@@ -55,7 +56,7 @@ class Process:
             return not True in results
         except IndexError:
             print("얼굴없음")
-            return True
+            return False
 
     def FireDetection(self, decoded_img):
         detections = self.detector.detectObjectsFromImage(input_image=decoded_img, input_type="array",
@@ -63,7 +64,7 @@ class Process:
                                                     minimum_percentage_probability=40)
 
         if len(detections) == 0 : fire_broken = False
-        else : fire_broken : True
+        else : fire_broken = True
         
         return fire_broken
         '''

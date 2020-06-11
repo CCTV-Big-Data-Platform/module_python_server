@@ -30,7 +30,7 @@ class test(Resource):
 
 @app.route('/process', methods=['POST'])
 def post():
-    print(request.form)
+    #print(request.form)
     res = spark.ProcessImage(request.form)
     return res
 
